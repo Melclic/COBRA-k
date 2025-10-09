@@ -5,6 +5,7 @@ This module does not include I/O functions which are found in COBRAk's "io" modu
 
 # IMPORT SECTION #
 import operator
+import logging
 import os
 from copy import deepcopy
 from random import choice
@@ -1255,7 +1256,11 @@ def get_full_enzyme_mw(cobrak_model: Model, reaction: Reaction) -> float:
             ]
         else:
             stoichiometry = 1
-        full_mw += stoichiometry * cobrak_model.enzymes[identifier].molecular_weight
+        try:
+            full_mw += stoichiometry * cobrak_model.enzymes[identifier].molecular_weight
+        except KeyError:
+            logging.warning('Cannot find cobrak_model.enzymes does not have {identifier}')
+            pass
     return full_mw
 
 

@@ -8,6 +8,7 @@ For non-linear-programs (NLP), see nlps.py in the same folder.
 """
 
 # IMPORT SECTION #
+import logging
 from copy import deepcopy
 from itertools import chain
 from math import ceil, floor
@@ -686,8 +687,11 @@ def _add_enzyme_constraints_to_lp(
         min_enzyme_conc = None
         max_enzyme_conc = None
         for enzyme_id in enzyme_reaction_data.identifiers:
-            enzyme = cobrak_model.enzymes[enzyme_id]
-
+            try:
+                enzyme = cobrak_model.enzymes[enzyme_id]
+            except KeyError:
+                logging.warning(f'cobrak_model.enzymes does not contain {enzyme_id}')
+                continue
             # If given, add concentration range constraints for the specific
             # enzyme quartery structure.
             if enzyme.min_conc is not None:

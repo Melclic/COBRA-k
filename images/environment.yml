@@ -1,0 +1,24 @@
+name: cobrak
+channels:
+  - defaults
+  - conda-forge
+  - anaconda
+  - bioconda
+  - sys-bio
+dependencies:
+  - python=3.10
+  - dataclasses-json
+  - matplotlib
+  - numpy
+  - openpyxl
+  - pyomo
+  - requests
+  - pyscipopt
+  - equilibrator-api
+  - joblib
+  - rich
+  - pydantic
+  - highspy
+  - pip:
+    - cobra
+    - tellurium

@@ -492,6 +492,7 @@ def get_cobrak_model_with_kinetic_data_from_sbml_model_alone(
     enzymes_to_delete: list[str] = [],
     max_taxonomy_level: float = 1_000.0,
     add_hill_coefficients: bool = True,
+    cache_data_folder: str = None,
 ) -> Model:
     """Build a fully-featured :class:`~cobrak.Model` from an SBML file **and** automatically
     retrieve all required kinetic and thermodynamic data from the local
@@ -605,7 +606,9 @@ def get_cobrak_model_with_kinetic_data_from_sbml_model_alone(
     add_hill_coefficients : bool, optional
         If ``True`` include Hill coefficients from SABIO-RK where available.
         Default: ``True``.
-
+    cache_data_folder: str, optional
+        If the user would like to separate the location of the cache and the 
+        data file, this parameter may be used for that
     Returns
     -------
     Model
@@ -646,7 +649,10 @@ def get_cobrak_model_with_kinetic_data_from_sbml_model_alone(
     )
 
     database_data_folder = standardize_folder(database_data_folder)
-    data_cache_files = get_files(database_data_folder)
+    if cache_data_folder:
+        data_cache_files = get_files(cache_data_folder)
+    else:
+        data_cache_files = get_files(database_data_folder)
 
     parse_external_resources(database_data_folder, brenda_version)
     if use_ec_number_transfers:
